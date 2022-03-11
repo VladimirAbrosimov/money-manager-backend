@@ -1,4 +1,4 @@
-package ru.vabrosimov.moneymanager.entity;
+package ru.vabrosimov.moneymanager.types;
 
 public enum NoteType {
     EXPENSE,

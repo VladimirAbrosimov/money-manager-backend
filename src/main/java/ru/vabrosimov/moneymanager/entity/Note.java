@@ -1,10 +1,9 @@
 package ru.vabrosimov.moneymanager.entity;
 
 import lombok.Data;
-import lombok.NonNull;
+import ru.vabrosimov.moneymanager.types.NoteType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -24,7 +23,7 @@ public class Note {
 
     private java.sql.Date date;
 
-    @ManyToOne //(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "noteCategory_id")
     @NotNull
     private NoteCategory category;

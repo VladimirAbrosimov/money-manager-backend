@@ -39,8 +39,6 @@ public class UserService implements UserDetailsService {
             UserRole userRole = userRoleRepository.findByName("ROLE_USER");
             user.setUserRole(userRole);
 
-            user.setNoteCategories(new ArrayList<>());
-
             userRepository.save(user);
             return true;
         } else {
@@ -51,17 +49,6 @@ public class UserService implements UserDetailsService {
     public boolean deleteUser(Long id) {
         if (this.findById(id) != null) {
             userRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean addNoteCategory(Authentication authentication, NoteCategory noteCategory) {
-        String username = authentication.getName();
-        User user = findByUsername(username);
-        if (user != null) {
-            user.getNoteCategories().add(noteCategory);
-            userRepository.flush();
             return true;
         }
         return false;

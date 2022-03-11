@@ -30,10 +30,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id")
     private UserRole userRole;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "note_categories", joinColumns = @JoinColumn(name = "user_id"))
-    private List<NoteCategory> noteCategories = new ArrayList<>();
-
     public User() {}
 
 

@@ -5,37 +5,41 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.vabrosimov.moneymanager.entity.NoteCategory;
-import ru.vabrosimov.moneymanager.entity.NoteType;
-import ru.vabrosimov.moneymanager.entity.TotalMoney;
+import ru.vabrosimov.moneymanager.types.IncomeExpenseStatisticsForMonth;
+import ru.vabrosimov.moneymanager.types.IncomeExpenseStatisticsForType;
+import ru.vabrosimov.moneymanager.types.NoteType;
+import ru.vabrosimov.moneymanager.types.IncomeExpenseStatisticsForCategory;
 import ru.vabrosimov.moneymanager.service.IncomeExpenseStatisticsService;
-import ru.vabrosimov.moneymanager.service.NoteService;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class IncomeExpenseStatisticsController {
     @Autowired
     private IncomeExpenseStatisticsService incomeExpenseStatisticsService;
 
-//    @GetMapping("/getTotalMoneyInYearAndMonth")
-//    public int getTotalMoneyInYearAndMonth(@RequestParam int year, @RequestParam int month, Authentication authentication) {
-//        return noteService.getTotalMoneyInYearAndMonth(authentication, year, month);
-//    }
-//
-    @GetMapping("/getTotalMoneyInCurrentMonth")
-    public long getTotalMoneyInCurrentMonth(Authentication authentication) {
-        return incomeExpenseStatisticsService.getTotalMoneyInCurrentMonth(authentication);
+    @GetMapping("/getTotalAmountInCurrentMonth")
+    public long getTotalAmountInCurrentMonth(Authentication authentication) {
+        return incomeExpenseStatisticsService.getTotalAmountInCurrentMonth(authentication);
     }
 
-//    @GetMapping("/getTotalMoneyInYearAndMonthAndTypeSortedByCategory")
-//    public Map<NoteCategory, Long> getTotalMoneyInYearAndMonthAndTypeSortedByCategory(@RequestParam int year, @RequestParam int month, @RequestParam NoteType type, Authentication authentication) {
-//        return incomeExpenseStatisticsService.getTotalMoneyInYearAndMonthAndTypeSortedByCategory(authentication, year, month, type);
-//    }
+    @GetMapping("/getIncomeExpenseStatisticsInCurrentMonthSortedByType")
+    public List<IncomeExpenseStatisticsForType> getIncomeExpenseStatisticsInCurrentMonthSortedByType(Authentication authentication) {
+        return incomeExpenseStatisticsService.getIncomeExpenseStatisticsInCurrentMonthSortedByType(authentication);
+    }
 
-    @GetMapping("/getTotalMoneyInCurrentMonthAndTypeSortedByCategory")
-    public List<TotalMoney> getTotalMoneyInCurrentMonthAndTypeSortedByCategory(@RequestParam NoteType type, Authentication authentication) {
-        return incomeExpenseStatisticsService.getTotalMoneyInCurrentMonthAndTypeSortedByCategory(authentication, type);
+    @GetMapping("/getIncomeExpenseStatisticsInCurrentMonthByTypeSortedByCategory")
+    public List<IncomeExpenseStatisticsForCategory> getIncomeExpenseStatisticsInCurrentMonthByTypeSortedByCategory(@RequestParam NoteType type, Authentication authentication) {
+        return incomeExpenseStatisticsService.getIncomeExpenseStatisticsInCurrentMonthByTypeSortedByCategory(authentication, type);
+    }
+
+    @GetMapping("/getIncomeExpenseStatisticsForAllTimeByTypeSortedByCategory")
+    public List<IncomeExpenseStatisticsForCategory> getIncomeExpenseStatisticsForAllTimeByTypeSortedByCategory(@RequestParam NoteType type, Authentication authentication) {
+        return incomeExpenseStatisticsService.getIncomeExpenseStatisticsForAllTimeByTypeSortedByCategory(authentication, type);
+    }
+
+    @GetMapping("/getIncomeExpenseStatisticsForCurrentYearSortedByMonth")
+    public List<IncomeExpenseStatisticsForMonth> getIncomeExpenseStatisticsForCurrentYearSortedByMonth(Authentication authentication) {
+        return incomeExpenseStatisticsService.getIncomeExpenseStatisticsForCurrentYearSortedByMonth(authentication);
     }
 }

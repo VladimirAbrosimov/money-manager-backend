@@ -1,6 +1,7 @@
 package ru.vabrosimov.moneymanager.entity;
 
 import lombok.Data;
+import ru.vabrosimov.moneymanager.types.NoteType;
 
 import javax.persistence.*;
 

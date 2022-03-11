@@ -6,7 +6,7 @@ import ru.vabrosimov.moneymanager.entity.NoteCategory;
 
 @Data
 @AllArgsConstructor
-public class IncomeExpenseStatisticsByCategory {
+public class IncomeExpenseStatisticsForCategory {
     private NoteCategory category;
     private Long amount;
 }

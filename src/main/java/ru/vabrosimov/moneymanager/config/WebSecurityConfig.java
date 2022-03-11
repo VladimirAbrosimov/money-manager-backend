@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     //Доступ только для не зарегистрированных пользователей
                     .antMatchers("/addUser").not().fullyAuthenticated()
                     //Доступ разрешен всем пользователей
-                    .antMatchers("/", "/css/**", "/js/**", "/auth", "/isUsernameUsed").permitAll()
+                    .antMatchers("/", "/css/**", "/js/**", "/auth", "/isUsernameUsed", "/getIncomeExpenseStatisticsForYearSortedByMonth").permitAll()
                     //Все остальные страницы требуют аутентификации
                     .anyRequest().authenticated()
                     .and()

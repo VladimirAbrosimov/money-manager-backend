@@ -1,10 +1,8 @@
 package ru.vabrosimov.moneymanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.vabrosimov.moneymanager.config.jwt.JwtProvider;
-import ru.vabrosimov.moneymanager.entity.NoteType;
 import ru.vabrosimov.moneymanager.entity.User;
 import ru.vabrosimov.moneymanager.service.UserService;
 
