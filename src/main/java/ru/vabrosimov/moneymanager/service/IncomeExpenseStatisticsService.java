@@ -83,7 +83,13 @@ public class IncomeExpenseStatisticsService {
         List<NoteCategory> categories = noteCategoryService.findAllByType(authentication, type);
         for (NoteCategory category : categories) {
             List<Note> notes = noteService.findAllByCategory(authentication, category);
+            System.out.println();
+            System.out.println(category);
+            notes.forEach(e -> System.out.println(e));
+
             long totalAmount = countTotalAmountAbs(notes);
+            System.out.println(totalAmount);
+            System.out.println();
             incomeExpenseStatisticsByCategories.add(new IncomeExpenseStatisticsForCategory(category, totalAmount));
         }
 
