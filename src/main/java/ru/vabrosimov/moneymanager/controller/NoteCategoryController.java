@@ -22,10 +22,6 @@ public class NoteCategoryController {
 
     @PostMapping("/deleteNoteCategory")
     public void deleteNoteCategory(@RequestBody NoteCategory noteCategory, Authentication authentication) {
-        System.out.println("JOPA");
-        System.out.println("JOPA");
-        System.out.println("JOPA");
-        System.out.println("JOPA");
         noteCategoryService.delete(authentication, noteCategory);
     }
 
