@@ -2,23 +2,16 @@ package ru.vabrosimov.moneymanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.vabrosimov.moneymanager.entity.NoteCategory;
 import ru.vabrosimov.moneymanager.entity.User;
 import ru.vabrosimov.moneymanager.entity.UserRole;
-import ru.vabrosimov.moneymanager.repository.NoteCategoryRepository;
 import ru.vabrosimov.moneymanager.repository.UserRepository;
 import ru.vabrosimov.moneymanager.repository.UserRoleRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -27,11 +20,13 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private UserRoleRepository userRoleRepository;
+    @Autowired
+    private NoteCategoryService noteCategoryService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public boolean saveUser(User user) {
+    public boolean save(User user) {
         User userFromDB = findByUsername(user.getUsername());
         if (userFromDB == null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -40,13 +35,15 @@ public class UserService implements UserDetailsService {
             user.setUserRole(userRole);
 
             userRepository.save(user);
+
+            noteCategoryService.initDefaultNoteCategories(user.getUsername());
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean deleteUser(Long id) {
+    public boolean delete(Long id) {
         if (this.findById(id) != null) {
             userRepository.deleteById(id);
             return true;

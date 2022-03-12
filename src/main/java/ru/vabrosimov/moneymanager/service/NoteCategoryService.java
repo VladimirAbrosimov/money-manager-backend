@@ -8,6 +8,7 @@ import ru.vabrosimov.moneymanager.entity.NoteCategory;
 import ru.vabrosimov.moneymanager.types.NoteType;
 import ru.vabrosimov.moneymanager.repository.NoteCategoryRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,6 +37,27 @@ public class NoteCategoryService {
 
         NoteCategory category = this.findByTypeAndName(authentication, noteCategory.getType(), noteCategory.getName());
         noteCategoryRepository.deleteById(category.getId());
+    }
+
+    public void initDefaultNoteCategories(String username) {
+        ArrayList<NoteCategory> categoriesExpense = new ArrayList<>();
+        categoriesExpense.add(new NoteCategory(username, NoteType.EXPENSE, "неизвестная категория", "#a7a7a7"));
+        categoriesExpense.add(new NoteCategory(username, NoteType.EXPENSE, "аренда", "#4e4892"));
+        categoriesExpense.add(new NoteCategory(username, NoteType.EXPENSE, "коммунальные услуги", "#f04241"));
+        categoriesExpense.add(new NoteCategory(username, NoteType.EXPENSE, "продукты", "#d23788"));
+        categoriesExpense.add(new NoteCategory(username, NoteType.EXPENSE, "одежда", "#99204b"));
+        categoriesExpense.add(new NoteCategory(username, NoteType.EXPENSE, "развлечения", "#155ba9"));
+
+        ArrayList<NoteCategory> categoriesIncome = new ArrayList<>();
+        categoriesIncome.add(new NoteCategory(username, NoteType.INCOME, "неизвестная категория", "#a7a7a7"));
+        categoriesIncome.add(new NoteCategory(username, NoteType.INCOME, "аванс", "#85af41"));
+        categoriesIncome.add(new NoteCategory(username, NoteType.INCOME, "зарплата", "#8cdba9"));
+        categoriesIncome.add(new NoteCategory(username, NoteType.INCOME, "дивиденды", "#bfa8bb"));
+        categoriesIncome.add(new NoteCategory(username, NoteType.INCOME, "пенсия", "#33ab5f"));
+        categoriesIncome.add(new NoteCategory(username, NoteType.INCOME, "премия", "#688b9a"));
+
+        categoriesExpense.forEach(e -> noteCategoryRepository.save(e));
+        categoriesIncome.forEach(e -> noteCategoryRepository.save(e));
     }
 
     public List<NoteCategory> findAll(Authentication authentication) {

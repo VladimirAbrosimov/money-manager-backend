@@ -15,7 +15,7 @@ public class UserController {
 
     @PostMapping("/addUser")
     public String addUser(@RequestBody User user) {
-        boolean status = userService.saveUser(user);
+        boolean status = userService.save(user);
         if (status) return "success";
         else return "fail";
     }
