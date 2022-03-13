@@ -12,7 +12,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @Component
-@Log // DELETE
+@Log
 public class JwtProvider {
 
     @Value("$(jwt.secret)")

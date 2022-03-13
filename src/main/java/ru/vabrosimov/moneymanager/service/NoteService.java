@@ -9,16 +9,11 @@ import ru.vabrosimov.moneymanager.entity.NoteCategory;
 import ru.vabrosimov.moneymanager.types.NoteType;
 import ru.vabrosimov.moneymanager.repository.NoteRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class NoteService {
-    @PersistenceContext
-    private EntityManager em;
-
     @Autowired
     private NoteRepository noteRepository;
 
@@ -26,20 +21,20 @@ public class NoteService {
         noteRepository.save(note);
     }
 
-    private Map<String, Integer> getCurrentYearAndMonth() {
-        LocalDate currentDate = LocalDate.now();
-        int currentYear = currentDate.getYear();
-        int currentMonth = currentDate.getMonthValue();
+    public void delete(Authentication authentication, Long id) {
+        if (!Objects.equals(this.findById(id).getUsername(), authentication.getName())) {
+            return;
+        }
 
-        Map<String, Integer> currentYearAndMonth = new HashMap<>();
-        currentYearAndMonth.put("year", currentYear);
-        currentYearAndMonth.put("month", currentMonth);
-        return currentYearAndMonth;
+        noteRepository.deleteById(id);
     }
 
+    public Note findById(Long id) {
+        return noteRepository.findById(id).get();
+    }
 
     public List<Note> findAll(Authentication authentication) {
-        return noteRepository.findByUsername(authentication.getName(), Sort.by(Sort.Direction.DESC, "date"));
+        return noteRepository.findByUsername(authentication.getName(), Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Note findLast() {
@@ -85,5 +80,14 @@ public class NoteService {
         return noteRepository.findAllByUsernameAndYearAndMonthAndTypeAndCategoryName(authentication.getName(), stringYear, stringMonth, stringType, categoryName);
     }
 
+    private Map<String, Integer> getCurrentYearAndMonth() {
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        int currentMonth = currentDate.getMonthValue();
 
+        Map<String, Integer> currentYearAndMonth = new HashMap<>();
+        currentYearAndMonth.put("year", currentYear);
+        currentYearAndMonth.put("month", currentMonth);
+        return currentYearAndMonth;
+    }
 }

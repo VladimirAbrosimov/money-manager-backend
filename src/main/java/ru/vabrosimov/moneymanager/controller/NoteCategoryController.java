@@ -20,9 +20,9 @@ public class NoteCategoryController {
         return "success";
     }
 
-    @PostMapping("/deleteNoteCategory")
-    public void deleteNoteCategory(@RequestBody NoteCategory noteCategory, Authentication authentication) {
-        noteCategoryService.delete(authentication, noteCategory);
+    @GetMapping("/deleteNoteCategory")
+    public void deleteNoteCategory(@RequestParam Long id, Authentication authentication) {
+        noteCategoryService.delete(authentication, id);
     }
 
     @GetMapping("/getAllNoteCategories")

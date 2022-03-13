@@ -10,6 +10,7 @@ import ru.vabrosimov.moneymanager.repository.NoteCategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class NoteCategoryService {
@@ -29,14 +30,17 @@ public class NoteCategoryService {
         return false;
     }
 
-    public void delete(Authentication authentication, NoteCategory noteCategory) {
-        List<Note> notesWithThisCategory = noteService.findAllByCategory(authentication, noteCategory);
+    public void delete(Authentication authentication, Long id) {
+        if (!Objects.equals(this.findById(id).getUsername(), authentication.getName())) {
+            return;
+        }
+
+        List<Note> notesWithThisCategory = noteService.findAllByCategory(authentication, this.findById(id));
         notesWithThisCategory.forEach((Note note) -> {
           note.setCategory(this.findByTypeAndName(authentication, note.getType(), "неизвестная категория"));
         });
 
-        NoteCategory category = this.findByTypeAndName(authentication, noteCategory.getType(), noteCategory.getName());
-        noteCategoryRepository.deleteById(category.getId());
+        noteCategoryRepository.deleteById(id);
     }
 
     public void initDefaultNoteCategories(String username) {
@@ -58,6 +62,10 @@ public class NoteCategoryService {
 
         categoriesExpense.forEach(e -> noteCategoryRepository.save(e));
         categoriesIncome.forEach(e -> noteCategoryRepository.save(e));
+    }
+
+    public NoteCategory findById(Long id) {
+        return noteCategoryRepository.findById(id).get();
     }
 
     public List<NoteCategory> findAll(Authentication authentication) {

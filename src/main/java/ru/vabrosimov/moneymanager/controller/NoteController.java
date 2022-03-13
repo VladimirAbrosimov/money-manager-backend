@@ -19,9 +19,19 @@ public class NoteController {
     @Autowired
     private NoteCategoryService noteCategoryService;
 
-    @GetMapping("/getLastNote")
-    public Note getLastNote() {
-        return noteService.findLast();
+    @PostMapping("/saveNote")
+    public String saveNote(@RequestBody Note note, @RequestParam Long noteCategoryId, Authentication authentication) {
+        NoteCategory category = noteCategoryService.findById(noteCategoryId);
+        note.setCategory(category);
+        note.setUsername(authentication.getName());
+
+        noteService.save(note);
+        return "success";
+    }
+
+    @GetMapping("/deleteNote")
+    public void deleteNote(@RequestParam Long id, Authentication authentication) {
+        noteService.delete(authentication, id);
     }
 
     @GetMapping("/getAllNotes")
@@ -29,13 +39,8 @@ public class NoteController {
         return noteService.findAll(authentication);
     }
 
-    @PostMapping("/addNote")
-    public String addNote(@RequestBody Note note, @RequestParam String noteCategoryName, Authentication authentication) {
-        NoteCategory category = noteCategoryService.findByTypeAndName(authentication, note.getType(), noteCategoryName);
-        note.setCategory(category);
-        note.setUsername(authentication.getName());
-
-        noteService.save(note);
-        return "success";
+    @GetMapping("/getLastNote")
+    public Note getLastNote() {
+        return noteService.findLast();
     }
 }
