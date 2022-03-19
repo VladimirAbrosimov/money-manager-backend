@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    image: 'money-manager-backend'
+    build:
+      context: services/app
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/moneymanager_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=pass
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  db:
+    image: 'postgres:13.6-alpine'
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=moneymanager_db

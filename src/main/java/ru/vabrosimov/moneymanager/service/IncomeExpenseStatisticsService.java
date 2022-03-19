@@ -5,28 +5,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.vabrosimov.moneymanager.entity.Note;
 import ru.vabrosimov.moneymanager.entity.NoteCategory;
+import ru.vabrosimov.moneymanager.types.IncomeExpenseStatisticsForCategory;
 import ru.vabrosimov.moneymanager.types.IncomeExpenseStatisticsForMonth;
 import ru.vabrosimov.moneymanager.types.IncomeExpenseStatisticsForType;
 import ru.vabrosimov.moneymanager.types.NoteType;
-import ru.vabrosimov.moneymanager.types.IncomeExpenseStatisticsForCategory;
-import ru.vabrosimov.moneymanager.repository.NoteRepository;
 
-import java.text.DateFormatSymbols;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class IncomeExpenseStatisticsService {
     @Autowired
     private NoteService noteService;
-
-    @Autowired
-    private NoteRepository noteRepository;
 
     @Autowired
     private NoteCategoryService noteCategoryService;
