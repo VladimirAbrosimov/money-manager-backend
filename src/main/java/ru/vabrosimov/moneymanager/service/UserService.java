@@ -1,7 +1,6 @@
 package ru.vabrosimov.moneymanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,6 +31,14 @@ public class UserService implements UserDetailsService {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
             UserRole userRole = userRoleRepository.findByName("ROLE_USER");
+            if (userRole == null) {
+                userRole = new UserRole();
+                userRole.setName("ROLE_USER");
+                userRoleRepository.save(userRole);
+
+                userRole = userRoleRepository.findByName("ROLE_USER");
+            }
+
             user.setUserRole(userRole);
 
             userRepository.save(user);

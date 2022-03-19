@@ -2,10 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: 'money-manager-backend'
-    build:
-      context: services/app
-      dockerfile: Dockerfile
+    image: 'vabrosimov/money-manager-backend:latest'
     environment:
       - PORT=8080
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/moneymanager_db
